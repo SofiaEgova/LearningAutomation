@@ -15,7 +15,10 @@ namespace LearningAutomation.Model
         [Required]
         [DataMember]
         public Guid LearningMaterialId { get; set; }
-        
+
+        [DataMember]
+        public string Title { get; set; }
+
         [DataMember]
         public byte[] File { get; set; }
         

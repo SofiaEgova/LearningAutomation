@@ -14,7 +14,7 @@ namespace LearningAutomation.Model
     {
         [Required]
         [DataMember]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required]
         [DataMember]

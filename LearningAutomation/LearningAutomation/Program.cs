@@ -36,5 +36,11 @@ namespace LearningAutomation
         .RegisterInstance<IUnityContainer>(currentContainer);
             return currentContainer;
         }
+
+        public static void PrintErrorMessage(string text)
+        {
+            FormError form = new FormError();
+            //form.LoadData(text);
+        }
     }
     }

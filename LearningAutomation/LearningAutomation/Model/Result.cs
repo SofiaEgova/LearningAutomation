@@ -13,10 +13,10 @@ namespace LearningAutomation.Model
     {
         [Required]
         [DataMember]
-        public int ResultId { get; set; }
+        public Guid ResultId { get; set; }
 
         [DataMember]
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [DataMember]
         public DateTime Date { get; set; }

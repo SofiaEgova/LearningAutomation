@@ -56,6 +56,7 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -73,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ColumnConfig.cs" />
     <Compile Include="Forms\FormAdministrator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,11 +87,29 @@
     <Compile Include="Forms\FormAutorization.Designer.cs">
       <DependentUpon>FormAutorization.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormError.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormError.Designer.cs">
+      <DependentUpon>FormError.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormMaterial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMaterial.Designer.cs">
+      <DependentUpon>FormMaterial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormUser.Designer.cs">
+      <DependentUpon>FormUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\LearningControl.cs">
       <SubType>UserControl</SubType>
@@ -103,9 +123,13 @@
     <Compile Include="Forms\MainControl.Designer.cs">
       <DependentUpon>MainControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907021519185_FirstMigration.cs" />
-    <Compile Include="Migrations\201907021519185_FirstMigration.Designer.cs">
-      <DependentUpon>201907021519185_FirstMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201907191802256_first.cs" />
+    <Compile Include="Migrations\201907191802256_first.Designer.cs">
+      <DependentUpon>201907191802256_first.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907191956039_titleLM.cs" />
+    <Compile Include="Migrations\201907191956039_titleLM.Designer.cs">
+      <DependentUpon>201907191956039_titleLM.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LearningMaterial.cs" />
@@ -122,8 +146,17 @@
     <EmbeddedResource Include="Forms\FormAutorization.resx">
       <DependentUpon>FormAutorization.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormError.resx">
+      <DependentUpon>FormError.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMaterial.resx">
+      <DependentUpon>FormMaterial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormUser.resx">
+      <DependentUpon>FormUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LearningControl.resx">
       <DependentUpon>LearningControl.cs</DependentUpon>
@@ -131,8 +164,11 @@
     <EmbeddedResource Include="Forms\MainControl.resx">
       <DependentUpon>MainControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907021519185_FirstMigration.resx">
-      <DependentUpon>201907021519185_FirstMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907191802256_first.resx">
+      <DependentUpon>201907191802256_first.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907191956039_titleLM.resx">
+      <DependentUpon>201907191956039_titleLM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

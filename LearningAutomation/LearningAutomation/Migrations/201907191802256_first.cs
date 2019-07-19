@@ -3,7 +3,7 @@ namespace LearningAutomation.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class FirstMigration : DbMigration
+    public partial class first : DbMigration
     {
         public override void Up()
         {
@@ -49,8 +49,8 @@ namespace LearningAutomation.Migrations
                 "dbo.Results",
                 c => new
                     {
-                        ResultId = c.Int(nullable: false),
-                        UserId = c.Int(nullable: false),
+                        ResultId = c.Guid(nullable: false),
+                        UserId = c.Guid(nullable: false),
                         Date = c.DateTime(nullable: false),
                         Score = c.Int(nullable: false),
                     })
@@ -62,7 +62,7 @@ namespace LearningAutomation.Migrations
                 "dbo.Users",
                 c => new
                     {
-                        UserId = c.Int(nullable: false, identity: true),
+                        UserId = c.Guid(nullable: false),
                         Login = c.String(nullable: false),
                         Password = c.String(),
                     })

@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
+using Unity.Resolution;
 
 namespace LearningAutomation.Forms
 {
@@ -28,37 +29,150 @@ namespace LearningAutomation.Forms
             _context = context;
         }
 
+        //добавление материала
         private void button1_Click(object sender, EventArgs e)
         {
-            //Stream myStream;
+            Stream myStream;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.ShowDialog();
-            //myStream = openFileDialog..OpenFile();
+            myStream = openFileDialog.OpenFile();
 
-            SautinSoft.PdfFocus pf = new SautinSoft.PdfFocus();
-            pf.OpenPdf(openFileDialog.FileName);
+            byte[] buf = new byte[myStream.Length];
 
-            if (pf.PageCount > 0)
+            myStream.Read(buf, 0, (int)myStream.Length);
+            myStream.Close();
+
+            _context.LearningMaterials.Add(new LearningMaterial { LearningMaterialId = new Guid(), File = buf });
+            _context.SaveChanges();
+
+        }
+        //открытие материала
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var b = _context.LearningMaterials.FirstOrDefault();
+
+            FileStream f;
+            using (f = File.Create("file.pdf"))
             {
-                pf.ImageOptions.Dpi = 300;
-                _context.LearningMaterials.Add(new LearningMaterial { LearningMaterialId = new Guid(), File = pf.ToMultipageTiff() });
-                _context.SaveChanges();
-                pf.ToMultipageTiff(@"d:\res.tiff");
+                {
+                    f.Write(b.File, 0, b.File.Length);
+                }
             }
 
-            //byte[] buf = new byte[myStream.Length];
+            System.Diagnostics.Process.Start("file.pdf");
+            //webBrowser1.Url = new Uri("file.pdf");
+        }
 
-            //myStream.Read(buf, 0, (int)myStream.Length);
-            //myStream.Close();
+        private void FormAdministrator_Load(object sender, EventArgs e)
+        {
+            List<ColumnConfig> columns = new List<ColumnConfig>
+            {
+                new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+                new ColumnConfig { Name = "Login", Title = "Логин", Width = 200, Visible = true },
+                new ColumnConfig { Name = "Password", Title = "Пароль", Width = 300, Visible = true }
+            };
+            dataGridViewUsers.Columns.Clear();
+            foreach (var column in columns)
+            {
+                dataGridViewUsers.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    HeaderText = column.Title,
+                    Name = string.Format("Column{0}", column.Name),
+                    ReadOnly = true,
+                    Visible = column.Visible,
+                    Width = column.Width ?? 0,
+                    AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
+                });
+            }
 
-            //_context.LearningMaterials.Add(new LearningMaterial { LearningMaterialId = new Guid(), File = buf });
-            //_context.SaveChanges();
+            columns = new List<ColumnConfig>
+            {
+                new ColumnConfig { Name = "Id", Title = "Id", Width = 100, Visible = false },
+                new ColumnConfig { Name = "Title", Title = "Заголовок", Width = 200, Visible = true },
+                new ColumnConfig { Name = "CountOfTests", Title = "Кол-во тестов", Width = 300, Visible = true }
+            };
+            dataGridViewUsers.Columns.Clear();
+            foreach (var column in columns)
+            {
+                dataGridViewUsers.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    HeaderText = column.Title,
+                    Name = string.Format("Column{0}", column.Name),
+                    ReadOnly = true,
+                    Visible = column.Visible,
+                    Width = column.Width ?? 0,
+                    AutoSizeMode = column.Width.HasValue ? DataGridViewAutoSizeColumnMode.None : DataGridViewAutoSizeColumnMode.Fill
+                });
+            }
+
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            var users = _context.Users.ToArray();
+            (tabControl.TabPages[0].Controls["dataGridViewUsers"] as DataGridView).Rows.Clear();
+            foreach (var u in users)
+            {
+                (tabControl.TabPages[0].Controls["dataGridViewUsers"] as DataGridView).Rows.Add(new object[]
+                {
+                    u.UserId,
+                    u.Login,
+                    u.Password
+                });
+            }
+
+            var lmaterials = _context.LearningMaterials.ToArray();
+            ///везде проверки на нулл
+
+            (tabControl.TabPages[0].Controls["dataGridViewMaterials"] as DataGridView).Rows.Clear();
+            foreach (var lm in lmaterials)
+            {
+                (tabControl.TabPages[0].Controls["dataGridViewMaterials"] as DataGridView).Rows.Add(new object[]
+                {
+                    lm.LearningMaterialId,
+                    lm.Title,
+                    lm.Tests.Count
+                });
+            }
+        }
+
+        private void buttonAddUser_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormUser>();
+            form.ShowDialog();
+        }
+
+        private void buttonUpdUser_Click(object sender, EventArgs e)
+        {
+            /// проверить на наличие нажатия
+            var id = dataGridViewUsers.SelectedCells[0];
+            var form = Container.Resolve<FormUser>(
+                        new ParameterOverrides
+                        {
+                            { "id", (Guid)id.Value }
+                        }
+                        .OnType<FormUser>());
+            form.ShowDialog();
+        }
+
+        private void buttonDelUser_Click(object sender, EventArgs e)
+        {
+            /// проверить на наличие нажатия
+            var id = dataGridViewUsers.SelectedCells[0];
+            var user = _context.Users.Find((Guid)id.Value);
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+        }
+
+        private void buttonAddMaterial_Click(object sender, EventArgs e)
+        {
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonUpd_Click(object sender, EventArgs e)
         {
-            
+
         }
     }
 }
