@@ -30,5 +30,8 @@ namespace LearningAutomation.Model
 
         [ForeignKey("TestId")]
         public virtual List<Question> Questions { get; set; }
+
+        [ForeignKey("TestId")]
+        public virtual List<Result> Results { get; set; }
     }
 }
