@@ -91,10 +91,10 @@ namespace LearningAutomation.Forms
                 new ColumnConfig { Name = "Title", Title = "Заголовок", Width = 200, Visible = true },
                 new ColumnConfig { Name = "CountOfTests", Title = "Кол-во тестов", Width = 300, Visible = true }
             };
-            dataGridViewUsers.Columns.Clear();
+            dataGridViewMaterials.Columns.Clear();
             foreach (var column in columns)
             {
-                dataGridViewUsers.Columns.Add(new DataGridViewTextBoxColumn
+                dataGridViewMaterials.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     HeaderText = column.Title,
                     Name = string.Format("Column{0}", column.Name),
@@ -125,14 +125,15 @@ namespace LearningAutomation.Forms
             var lmaterials = _context.LearningMaterials.ToArray();
             ///везде проверки на нулл
 
-            (tabControl.TabPages[0].Controls["dataGridViewMaterials"] as DataGridView).Rows.Clear();
+            (tabControl.TabPages[1].Controls["dataGridViewMaterials"] as DataGridView).Rows.Clear();
             foreach (var lm in lmaterials)
             {
-                (tabControl.TabPages[0].Controls["dataGridViewMaterials"] as DataGridView).Rows.Add(new object[]
+                int countTests = (lm.Tests == null) ? 0 : lm.Tests.Count;
+                (tabControl.TabPages[1].Controls["dataGridViewMaterials"] as DataGridView).Rows.Add(new object[]
                 {
                     lm.LearningMaterialId,
                     lm.Title,
-                    lm.Tests.Count
+                    countTests
                 });
             }
         }
@@ -167,12 +168,30 @@ namespace LearningAutomation.Forms
 
         private void buttonAddMaterial_Click(object sender, EventArgs e)
         {
+            Stream myStream;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.ShowDialog();
+            myStream = openFileDialog.OpenFile();
 
+            byte[] buf = new byte[myStream.Length];
+
+            myStream.Read(buf, 0, (int)myStream.Length);
+            myStream.Close();
+
+            _context.LearningMaterials.Add(new LearningMaterial { LearningMaterialId = new Guid(), File = buf, Title = "test" });
+            _context.SaveChanges();
         }
 
         private void buttonUpd_Click(object sender, EventArgs e)
         {
-
+            var id = dataGridViewMaterials.SelectedCells[0];
+            var form = Container.Resolve<FormMaterial>(
+                        new ParameterOverrides
+                        {
+                            { "id", (Guid)id.Value }
+                        }
+                        .OnType<FormMaterial>()); 
+            form.ShowDialog();
         }
     }
 }
