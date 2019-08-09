@@ -23,6 +23,9 @@ namespace LearningAutomation.Model
         [DataMember]
         public string Password { get; set; }
 
+        [DataMember]
+        public bool IsActive { get; set; }
+
         [ForeignKey("ResultId")]
         public virtual List<Result> Results { get; set; }
     }

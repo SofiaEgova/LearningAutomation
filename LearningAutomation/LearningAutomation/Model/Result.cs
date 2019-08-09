@@ -19,11 +19,16 @@ namespace LearningAutomation.Model
         public Guid UserId { get; set; }
 
         [DataMember]
+        public Guid TestId { get; set; }
+
+        [DataMember]
         public DateTime Date { get; set; }
 
         [DataMember]
         public int Score { get; set; }
 
         public virtual User User { get; set; }
+
+        public virtual Test Test { get; set; }
     }
 }

@@ -33,5 +33,10 @@ namespace LearningAutomation
             var form = Container.Resolve<FormAdministrator>();
             form.ShowDialog();
         }
+
+        private void buttonuser_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
