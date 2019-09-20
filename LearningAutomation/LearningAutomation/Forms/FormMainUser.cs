@@ -8,12 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Unity;
 
 namespace LearningAutomation.Forms
 {
     public partial class FormMainUser : Form
     {
-        // добавить миграцию!!!!!
 
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -80,15 +80,15 @@ namespace LearningAutomation.Forms
         private void LoadData()
         {
             var result=0; int countOfPassedTests=0;
-            var user = _context.Users.Find(u => u.IsActive == true);
-            var results = _context.Results.Where(r=>r.UserId==user.UserId).toArray();
+            var user = _context.Users.FirstOrDefault(u => u.IsActive == true);
+            var results = _context.Results.Where(r=>r.UserId==user.UserId);
 
             (tabControl.TabPages[0].Controls["dataGridViewStatistic"] as DataGridView).Rows.Clear();
             foreach (var r in results)
             {
                 result += r.Score;
                 countOfPassedTests++;
-                var title = _context.Tests.FirstOrDefault(t => t.TestId == r.TestId).Result.Title;
+                var title = _context.Tests.FirstOrDefault(t => t.TestId == r.TestId).Title;
                 (tabControl.TabPages[0].Controls["dataGridViewStatistic"] as DataGridView).Rows.Add(new object[]
                 {
                     r.ResultId,
@@ -105,8 +105,8 @@ namespace LearningAutomation.Forms
             foreach (var lm in lmaterials)
             {
                 var isPassed = "нет";
-                var testId = _context.Tests.FirstOfDefault(t => t.LearningMaterialId == lm.LearningMaterialId);
-                var res = _context.Results.FirstOfDefault(r => r.TestId == testId);
+                var testId = _context.Tests.FirstOrDefault(t => t.LearningMaterialId == lm.LearningMaterialId).TestId;
+                var res = _context.Results.FirstOrDefault(r => r.TestId == testId);
                 if (res != null) isPassed = "да";
 
                 (tabControl.TabPages[0].Controls["dataGridViewLearning"] as DataGridView).Rows.Add(new object[]

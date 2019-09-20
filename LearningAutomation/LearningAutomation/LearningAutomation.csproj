@@ -137,6 +137,10 @@
     <Compile Include="Migrations\201907191956039_titleLM.Designer.cs">
       <DependentUpon>201907191956039_titleLM.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908092019146_mu.cs" />
+    <Compile Include="Migrations\201908092019146_mu.Designer.cs">
+      <DependentUpon>201908092019146_mu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\LearningMaterial.cs" />
     <Compile Include="Model\Result.cs" />
@@ -178,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907191956039_titleLM.resx">
       <DependentUpon>201907191956039_titleLM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908092019146_mu.resx">
+      <DependentUpon>201908092019146_mu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
