@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
+using Unity.Resolution;
 
 namespace LearningAutomation.Forms
 {
@@ -55,7 +56,14 @@ namespace LearningAutomation.Forms
 
         private void buttonAddTest_Click(object sender, EventArgs e)
         {
-
+            //var id = dataGridView1.SelectedCells[0]; изменить
+            var form = Container.Resolve<FormTest>(
+                        new ParameterOverrides
+                        {
+                            {"materialId", _id }
+                        }
+                        .OnType<FormTest>());
+            form.ShowDialog();
         }
 
         private void buttonUpd_Click(object sender, EventArgs e)
